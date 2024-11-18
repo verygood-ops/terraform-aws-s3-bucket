@@ -1,7 +1,11 @@
+locals {
+  replication_role = format("%s-replication", local.bucket_name)
+}
+
 resource "aws_iam_role" "replication" {
   count = local.replication_enabled ? 1 : 0
 
-  name                 = format("%s-replication", local.bucket_name)
+  name                 = local.replication_role
   assume_role_policy   = data.aws_iam_policy_document.replication_sts[0].json
   permissions_boundary = var.s3_replication_permissions_boundary_arn
 
@@ -28,7 +32,7 @@ data "aws_iam_policy_document" "replication_sts" {
 resource "aws_iam_policy" "replication" {
   count = local.replication_enabled ? 1 : 0
 
-  name   = aws_iam_role.replication[0].name
+  name   = local.replication_role
   policy = data.aws_iam_policy_document.replication[0].json
 
   tags = module.this.tags
@@ -64,7 +68,6 @@ data "aws_iam_policy_document" "replication" {
     resources = toset(concat(
       try(length(var.s3_replica_bucket_arn), 0) > 0 ? ["${var.s3_replica_bucket_arn}/*"] : [],
       [for rule in local.s3_replication_rules : "${rule.destination_bucket}/*" if try(length(rule.destination_bucket), 0) > 0],
-      [for rule in local.s3_replication_rules : "${rule.destination.bucket}/*" if try(length(rule.destination.bucket), 0) > 0],
     ))
   }
 }
