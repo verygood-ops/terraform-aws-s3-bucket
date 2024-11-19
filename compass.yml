@@ -1,0 +1,31 @@
+name: terraform-aws-s3-bucket
+id: ari:cloud:compass:83673fa7-fd28-4f4a-9738-f584064570a7:component/db43f86d-85fe-42e1-954d-457f5a4082b8/5afc419b-985f-4949-8ce4-41e9569531e9
+description: Terraform module that creates an S3 bucket with an optional IAM user for external CI/CD systems
+configVersion: 1
+typeId: SERVICE
+fields:
+  tier: 4
+links:
+  - name: null
+    type: REPOSITORY
+    url: https://github.com/verygood-ops/terraform-aws-s3-bucket
+relationships:
+  DEPENDS_ON: []
+labels:
+  - source:github
+customFields:
+  - name: Logging
+    type: text
+    value: null
+  - name: Metrics
+    type: text
+    value: null
+  - name: Service Name
+    type: text
+    value: null
+  - name: Tracing
+    type: text
+    value: null
+  - name: statusIO
+    type: text
+    value: null
